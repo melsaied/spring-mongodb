@@ -8,54 +8,54 @@ import java.util.List;
 
 @Component
 public class Seeder implements CommandLineRunner {
-    HotelRepository repository;
+    UserRepository repository;
 
-    public Seeder(HotelRepository repository) {
+    public Seeder(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        List<Hotel> list = Arrays.asList(
-                new Hotel(
-                        "hotel1",
-                        200,
-                        new Address(
-                                "city1",
-                                "country1"),
-                        Arrays.asList(new Review(
-                                        "user1",
-                                        5,
-                                        true),
-                                new Review(
-                                        "user2",
-                                        4,
-                                        true),
-                                new Review(
-                                        "user3",
-                                        3,
-                                        false))),
-                new Hotel(
-                        "hotel2",
-                        300,
-                        new Address(
-                                "city2",
-                                "country2"),
-                        Arrays.asList(new Review(
-                                        "user2",
-                                        5,
-                                        true),
-                                new Review(
-                                        "user1",
-                                        1,
-                                        false))),
-                new Hotel(
-                        "hotel3",
-                        100,
-                        new Address(
-                                "city3",
-                                "country3"),
-                        null));
+
+
+        List<User> list = Arrays.asList(
+                new User(
+                        "firstName0",
+                        "lastName0",
+                        "email0",
+                        "password0",
+                        Arrays.asList(
+                                new Course("CourseName0", 123l),
+                                new Course("CourseName1", 234l),
+                                new Course("CourseName2", 345l)
+                        )
+                ), new User(
+                        "firstName1",
+                        "lastName1",
+                        "email1",
+                        "password1",
+                        Arrays.asList(
+                                new Course("CourseName1", 123l),
+                                new Course("CourseName3", 234l)
+                        )
+                ), new User(
+                        "firstName2",
+                        "lastName2",
+                        "email2",
+                        "password2",
+                        Arrays.asList(
+                                new Course("CourseName1", 123l)
+                        )
+                ), new User(
+                        "firstName3",
+                        "lastName3",
+                        "email3",
+                        "password3",
+                        Arrays.asList(
+                        )
+                )
+        );
+
         this.repository.deleteAll();
         this.repository.saveAll(list);
     }

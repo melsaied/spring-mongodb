@@ -10,18 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/hotels")
-public class HotelController {
+@RequestMapping("/user")
+public class UserController {
     @Autowired
-    HotelRepository repository;
-
-    public HotelController(HotelRepository repository) {
-        this.repository = repository;
-    }
+    UserRepository repository;
 
     @GetMapping("/all")
-    ResponseEntity<List<Hotel>> getAll() {
-        List<Hotel> result = repository.findAll();
+    ResponseEntity<List<User>> getAll() {
+        List<User> result = repository.findAll();
         if (result == null || result.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -30,8 +26,8 @@ public class HotelController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Optional<Hotel>> getById(@PathVariable("id") String id) {
-        Optional<Hotel> result = repository.findById(id);
+    ResponseEntity<Optional<User>> getById(@PathVariable("id") String id) {
+        Optional<User> result = repository.findById(id);
         if (result == null || result.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -39,19 +35,9 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/price/{param0}")
-    ResponseEntity<List<Hotel>> getByPrice(@PathVariable("param0") int max) {
-        List<Hotel> result = repository.findByPricePerNightLessThan(max);
-        if (result == null || result.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(result);
-        }
-    }
-
-    @GetMapping("/city/{param0}")
-    ResponseEntity<List<Hotel>> getByCity(@PathVariable("param0") String city) {
-        List<Hotel> result = repository.findByCity(city);
+    @GetMapping("/filter0/{param0}")
+    ResponseEntity<List<User>> getByPrice(@PathVariable("param0") String param0) {
+        List<User> result = repository.findByEmail(param0);
         if (result == null || result.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -60,8 +46,8 @@ public class HotelController {
     }
 
     @PostMapping
-    ResponseEntity<Hotel> create(@RequestBody Hotel hotel) {
-        Hotel result = repository.insert(hotel);
+    ResponseEntity<User> create(@RequestBody User hotel) {
+        User result = repository.insert(hotel);
         if (result == null) {
             return ResponseEntity.badRequest().build();
         } else {
@@ -71,8 +57,8 @@ public class HotelController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Hotel> update(@RequestBody Hotel hotel, @PathVariable String id) {
-        Hotel result = repository.save(hotel);
+    ResponseEntity<User> update(@RequestBody User hotel, @PathVariable String id) {
+        User result = repository.save(hotel);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -81,8 +67,8 @@ public class HotelController {
     }
 
     @PutMapping
-    ResponseEntity<Hotel> update(@RequestBody Hotel hotel) {
-        Hotel result = repository.save(hotel);
+    ResponseEntity<User> update(@RequestBody User hotel) {
+        User result = repository.save(hotel);
         if (result == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -93,12 +79,12 @@ public class HotelController {
     @DeleteMapping("/{id}")
     ResponseEntity delete(@PathVariable("id") String id) {
         repository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    ResponseEntity<Object> delete(@RequestBody Hotel hotel) {
-        repository.delete(hotel);
-        return ResponseEntity.noContent().build();
+    ResponseEntity<Object> delete(@RequestBody User object) {
+        repository.delete(object);
+        return ResponseEntity.ok().build();
     }
 }
