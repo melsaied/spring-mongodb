@@ -1,13 +1,18 @@
 package com.CloudTech.springmongodb;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/hotels")
 public class HotelController {
+    @Autowired
     HotelRepository repository;
 
     public HotelController(HotelRepository repository) {
@@ -15,37 +20,85 @@ public class HotelController {
     }
 
     @GetMapping("/all")
-    List<Hotel> getAll() {
-        return repository.findAll();
+    ResponseEntity<List<Hotel>> getAll() {
+        List<Hotel> result = repository.findAll();
+        if (result == null || result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @GetMapping("/{id}")
-    Optional<Hotel> getById(@PathVariable("id") String id) {
-        return repository.findById(id);
+    ResponseEntity<Optional<Hotel>> getById(@PathVariable("id") String id) {
+        Optional<Hotel> result = repository.findById(id);
+        if (result == null || result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
-    @GetMapping("/price/{max}")
-    List<Hotel> getById(@PathVariable("max") int max) {
-        return repository.findByPricePerNightLessThan(max);
+    @GetMapping("/price/{param0}")
+    ResponseEntity<List<Hotel>> getByPrice(@PathVariable("param0") int max) {
+        List<Hotel> result = repository.findByPricePerNightLessThan(max);
+        if (result == null || result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
+    }
+
+    @GetMapping("/city/{param0}")
+    ResponseEntity<List<Hotel>> getByCity(@PathVariable("param0") String city) {
+        List<Hotel> result = repository.findByCity(city);
+        if (result == null || result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @PostMapping
-    Hotel add(@RequestBody Hotel hotel) {
-        return repository.insert(hotel);
+    ResponseEntity<Hotel> create(@RequestBody Hotel hotel) {
+        Hotel result = repository.insert(hotel);
+        if (result == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri();
+            return ResponseEntity.created(uri).body(result);
+        }
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<Hotel> update(@RequestBody Hotel hotel, @PathVariable String id) {
+        Hotel result = repository.save(hotel);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @PutMapping
-    Hotel update(@RequestBody Hotel hotel) {
-        return repository.save(hotel);
-    }
-
-    @DeleteMapping
-    void delete(@RequestBody Hotel hotel) {
-        repository.delete(hotel);
+    ResponseEntity<Hotel> update(@RequestBody Hotel hotel) {
+        Hotel result = repository.save(hotel);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable("id") String id) {
+    ResponseEntity delete(@PathVariable("id") String id) {
         repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    ResponseEntity<Object> delete(@RequestBody Hotel hotel) {
+        repository.delete(hotel);
+        return ResponseEntity.noContent().build();
     }
 }
