@@ -1,4 +1,4 @@
-package com.CloudTech.springmongodb;
+package com.cloudtech.springmongodb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

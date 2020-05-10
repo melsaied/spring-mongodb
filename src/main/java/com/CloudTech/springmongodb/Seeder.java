@@ -1,4 +1,4 @@
-package com.CloudTech.springmongodb;
+package com.cloudtech.springmongodb;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

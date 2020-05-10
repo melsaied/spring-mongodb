@@ -1,4 +1,4 @@
-package com.CloudTech.springmongodb;
+package com.cloudtech.springmongodb;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.CloudTech.springmongodb;
+package com.cloudtech.springmongodb;
 
 public class Course {
     private String id;
