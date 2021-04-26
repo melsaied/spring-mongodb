@@ -7,12 +7,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "Hotels")
+@Document(collection = "hotels")
 public class Hotel {
     @Id
     String id;
     String name;
-    @Indexed(direction = IndexDirection.ASCENDING)
+//    @Indexed(direction = IndexDirection.ASCENDING)
     int pricePerNight;
     Address address;
     List<Review> reviews;
