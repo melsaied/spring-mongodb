@@ -18,7 +18,7 @@ public class Seeder implements CommandLineRunner {
     public void run(String... args) throws Exception {
         List<Hotel> list = Arrays.asList(
                 new Hotel(
-                        "hotel1",
+                        "hotel1 ",
                         200,
                         new Address(
                                 "city1",
